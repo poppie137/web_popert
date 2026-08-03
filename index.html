@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>alexander popert — art & science, bodywork, music, data</title>
+<meta name="description" content="alexander popert, zürich — art & science consulting, bodywork, improvised music and events, and custom data tools. music and bodywork under the name almapola.">
+
+<!-- ============================================================
+     FONTS
+     display: space grotesk (geometric, technical)
+     body:    ibm plex sans (clean, humanist)
+     mono:    ibm plex mono (labels, eyebrows, contact details)
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+
+/* ============================================================
+   1. DESIGN TOKENS — edit these to change the whole site's look
+   ============================================================ */
+:root{
+  --paper:       #f2ebe1;   /* warm parchment background */
+  --ink:         #2b1f18;   /* warm espresso — body text */
+  --brown:       #8b5e3c;   /* warm clay — bodywork / music sections */
+  --brown-deep:  #5c3d26;
+  --violet:      #55536f;   /* cool slate violet — art & science / data sections */
+  --violet-deep: #3a3950;
+  --poppy:       #b7312c;   /* poppy red — links, accents, the one loud colour */
+  --line:        #d8cbb8;   /* hairline dividers */
+
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body:    'IBM Plex Sans', sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+  --measure: 60ch;
+  --label-col: 10rem;       /* width of the left-hand label column */
+  --col-gap: clamp(1.5rem, 5vw, 4rem);
+  --frame: 68rem;           /* max content width */
+}
+
+/* ============================================================
+   2. RESET & BASE
+   ============================================================ */
+*, *::before, *::after{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+img{ max-width: 100%; display: block; }
+h1, h2, h3{ font-family: var(--font-display); margin: 0; line-height: 1.12; font-weight: 500; }
+p{ margin: 0 0 1em; max-width: var(--measure); }
+a{ color: var(--poppy); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover{ color: var(--brown-deep); }
+:focus-visible{ outline: 2px solid var(--poppy); outline-offset: 3px; }
+
+.eyebrow{
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+  color: var(--brown);
+  margin: 0;
+}
+
+/* ============================================================
+   3. SITE HEADER
+   ============================================================ */
+.site-header{
+  max-width: var(--frame);
+  margin: 0 auto;
+  padding: 1.75rem var(--gutter) 1.5rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem 2rem;
+}
+.wordmark{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+.site-nav{
+  display: flex;
+  gap: 1.4rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+.site-nav a{
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+}
+.site-nav a:hover{ color: var(--poppy); border-bottom-color: var(--poppy); }
+
+/* ============================================================
+   4. SIGNATURE — the wave mark
+   a small standing wave, repeated once per section in the label
+   column. stands for the shared idea across all four areas:
+   a subtle signal, made perceptible.
+   ============================================================ */
+.wave{
+  width: 58px;
+  height: 12px;
+  margin-top: 0.7rem;
+  overflow: visible;
+}
+.wave path{ fill: none; stroke: var(--brown); stroke-width: 1.4; }
+.cool .wave path{ stroke: var(--violet); }
+
+/* ============================================================
+   5. HERO
+   ============================================================ */
+.hero{
+  max-width: var(--frame);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 5vw, 3.5rem) var(--gutter) clamp(4rem, 9vw, 7rem);
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 22rem);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+.hero h1{
+  font-size: clamp(2.1rem, 5.2vw, 3.4rem);
+  letter-spacing: -0.015em;
+  margin-top: 0.5rem;
+}
+.hero .alias{
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--violet-deep);
+  margin: 0.7rem 0 1.8rem;
+}
+.hero .lede{ font-size: 1.08rem; }
+
+.portrait-frame{ position: relative; justify-self: center; width: 100%; }
+.portrait-frame .rings{ position: absolute; inset: -9%; z-index: 0; }
+.portrait-frame img{
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  aspect-ratio: 1 / 1.1;
+  object-fit: cover;
+  object-position: top center;
+  /* pull the black-and-white photography into the palette */
+  filter: grayscale(1) sepia(0.3) saturate(1.35) hue-rotate(-10deg) contrast(1.03) brightness(0.97);
+  border: 1px solid var(--line);
+}
+
+.jump{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1.4rem;
+  margin-top: 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+.jump a{
+  color: var(--violet-deep);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 2px;
+}
+.jump a:hover{ color: var(--poppy); border-bottom-color: var(--poppy); }
+
+/* ============================================================
+   6. SECTIONS — shared architectural grid
+   label column on the left, content on the right
+   ============================================================ */
+.band{ border-top: 1px solid var(--line); }
+.band.cool{ background: linear-gradient(180deg, rgba(85,83,111,0.055), transparent 60%); }
+.band.warm{ background: linear-gradient(180deg, rgba(139,94,60,0.06), transparent 60%); }
+
+.band-inner{
+  max-width: var(--frame);
+  margin: 0 auto;
+  padding: clamp(3rem, 7vw, 5.5rem) var(--gutter);
+  display: grid;
+  grid-template-columns: var(--label-col) 1fr;
+  gap: var(--col-gap);
+  align-items: start;
+}
+.band-label{ position: sticky; top: 2rem; }
+.band-body{ min-width: 0; }
+.band-body h2{
+  font-size: clamp(1.5rem, 3.2vw, 2.15rem);
+  letter-spacing: -0.01em;
+}
+.band-body .teaser{ font-size: 1.06rem; margin-top: 1rem; }
+
+/* ============================================================
+   7. EXPANDABLE DETAIL
+   ============================================================ */
+details.more{ margin-top: 1.5rem; }
+details.more > summary{
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--poppy);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  user-select: none;
+}
+details.more > summary::-webkit-details-marker{ display: none; }
+details.more > summary::after{
+  content: "+";
+  display: inline-block;
+  font-size: 1rem;
+  line-height: 1;
+  transition: transform 0.22s ease;
+}
+details.more[open] > summary::after{ transform: rotate(45deg); }
+details.more > summary:hover{ color: var(--brown-deep); }
+
+.more-body{
+  padding: 1.5rem 0 0 1.5rem;
+  margin-top: 1rem;
+  border-left: 1px solid var(--line);
+}
+.more-body h3{
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.92rem;
+  color: var(--brown-deep);
+  margin: 1.8rem 0 0.6rem;
+}
+.more-body h3:first-child{ margin-top: 0; }
+.cool .more-body h3{ color: var(--violet-deep); }
+
+.meta-line{
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--violet-deep);
+  margin-top: 1.2rem;
+  max-width: none;
+}
+.price-note{
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--brown-deep);
+}
+
+/* ============================================================
+   8. IMAGE GALLERY (inside an expanded section)
+   ============================================================ */
+.gallery{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+  gap: 0.85rem;
+  margin-top: 1.8rem;
+}
+.gallery figure{ margin: 0; }
+.gallery img{
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  filter: grayscale(1) sepia(0.24) saturate(1.25) contrast(1.02);
+}
+.gallery figcaption{
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--brown);
+  margin-top: 0.45rem;
+}
+
+/* ============================================================
+   9. CONTACT
+   ============================================================ */
+.contact-links{
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+}
+.contact-links a{ text-decoration: none; border-bottom: 1px solid var(--line); align-self: flex-start; padding-bottom: 2px; }
+.contact-links a:hover{ border-bottom-color: var(--poppy); }
+.contact-links span{ color: var(--brown-deep); }
+
+/* ============================================================
+   10. FOOTER
+   ============================================================ */
+.site-footer{
+  border-top: 1px solid var(--line);
+}
+.site-footer .inner{
+  max-width: var(--frame);
+  margin: 0 auto;
+  padding: 1.75rem var(--gutter) 3rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--brown);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+/* ============================================================
+   11. RESPONSIVE
+   ============================================================ */
+@media (max-width: 820px){
+  .hero{ grid-template-columns: 1fr; }
+  .portrait-frame{ order: -1; max-width: 20rem; }
+  .band-inner{ grid-template-columns: 1fr; gap: 1.1rem; }
+  .band-label{ position: static; }
+  .wave{ margin-top: 0.5rem; }
+  .site-header{ flex-direction: column; align-items: flex-start; }
+}
+
+/* ============================================================
+   12. MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior: auto; }
+  details.more > summary::after{ transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="wordmark" href="#top">alexander popert</a>
+  <nav class="site-nav">
+    <a href="#art-in-science">art in science</a>
+    <a href="#bodywork">bodywork</a>
+    <a href="#music">music &amp; events</a>
+    <a href="#data">data &amp; tools</a>
+    <a href="#about">about</a>
+    <a href="#contact">contact</a>
+  </nav>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" id="top">
+  <div>
+    <p class="eyebrow">zürich, switzerland</p>
+    <h1>alexander popert</h1>
+    <p class="alias">music and bodywork by almapola</p>
+    <p class="lede">four areas of work, one instinct: to notice what usually passes below the threshold. the vibration in an atomically thin crystal. what a body says when words don't reach. the moment an improvisation turns into a conversation. the shape hidden inside a dataset. different material each time, same act — tune in, and there is more there than expected.</p>
+    <div class="jump">
+      <a href="#art-in-science">art in science</a>
+      <a href="#bodywork">bodywork</a>
+      <a href="#music">music &amp; events</a>
+      <a href="#data">data &amp; tools</a>
+    </div>
+  </div>
+
+  <div class="portrait-frame">
+    <svg class="rings" viewBox="0 0 200 200" aria-hidden="true">
+      <circle cx="100" cy="100" r="70" fill="none" stroke="#55536f" stroke-opacity="0.32" stroke-width="1"/>
+      <circle cx="100" cy="100" r="86" fill="none" stroke="#55536f" stroke-opacity="0.2" stroke-width="1"/>
+      <circle cx="100" cy="100" r="100" fill="none" stroke="#b7312c" stroke-opacity="0.25" stroke-width="1"/>
+    </svg>
+    <img src="images/portrait.jpg" alt="alexander popert, smiling, seated behind a frame drum">
+  </div>
+</section>
+
+<!-- ============================================================
+     ART IN SCIENCE
+     ============================================================ -->
+<section class="band cool" id="art-in-science">
+  <div class="band-inner">
+    <div class="band-label">
+      <p class="eyebrow">consulting</p>
+      <svg class="wave" viewBox="0 0 58 12" aria-hidden="true"><path d="M0,6 C8,6 8,1.5 16,1.5 C24,1.5 24,10.5 32,10.5 C40,10.5 40,6 58,6"/></svg>
+    </div>
+    <div class="band-body">
+      <h2>art & science</h2>
+      <p class="teaser">how can the discipline of art and the discipline of quantum physics inspire each other? how can a vibration in an atomically thin crystal become an artistic expression?</p>
+
+      <details class="more">
+        <summary>read more</summary>
+        <div class="more-body">
+          <p>i did my phd at eth zürich in the quantum photonics group, researching ultrathin crystals — transition metal dichalcogenides and graphene — with optical spectroscopy. that work is the starting point for a different kind of consulting: putting artistic practice and quantum-physics research into direct conversation, in both directions.</p>
+          <p>in practice this ranges from advising an artist on how a physical phenomenon can become a working material, to longer collaborations. if you are curious what this could look like alongside your own work, get in touch.</p>
+          <div class="gallery">
+            <figure><img src="images/art_and_science_1.jpg" alt="close-up of optical lab equipment, mirrors and mounts on a steel breadboard"><figcaption>sample mount</figcaption></figure>
+            <figure><img src="images/art_and_science_4.jpg" alt="laser light scattering across an optical table in a darkened room"><figcaption>optical table</figcaption></figure>
+            <figure><img src="images/art_and_science_3.jpg" alt="two researchers aligning an optical experiment in a laboratory"><figcaption>alignment</figcaption></figure>
+            <figure><img src="images/art_and_science_2.jpg" alt="macro photograph of dried seed pods, their radial structure echoing a crystal lattice"><figcaption>lattice, found</figcaption></figure>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BODYWORK
+     ============================================================ -->
+<section class="band warm" id="bodywork">
+  <div class="band-inner">
+    <div class="band-label">
+      <p class="eyebrow">1:1 session</p>
+      <svg class="wave" viewBox="0 0 58 12" aria-hidden="true"><path d="M0,6 C8,6 8,1.5 16,1.5 C24,1.5 24,10.5 32,10.5 C40,10.5 40,6 58,6"/></svg>
+    </div>
+    <div class="band-body">
+      <h2>bodywork</h2>
+      <p class="teaser">a grounding touch, combining thai massage, reiki energy work and sound.</p>
+
+      <details class="more">
+        <summary>read more</summary>
+        <div class="more-body">
+          <p>a session brings you into a relaxed space. we begin with a small sound bath on singing bowls to tune in, move into thai massage to ease muscular tension, and close with reiki energy work to support the body's own capacity to regulate itself. if there is a particular place asking for attention, or a particular way you would like to be touched, say so — i work intuitively and adapt to what is actually needed on the day.</p>
+          <p>i see touch and sound as body languages, the same way i see music: ways two nervous systems can co-regulate without going through words.</p>
+          <p class="price-note">sessions are priced on request — write to me and we will find something that works.</p>
+          <div class="gallery">
+            <figure><img src="images/bodywork_1.jpg" alt="a sound and touch session, singing bowl held above a seated participant, others reclining nearby"><figcaption>sound and touch</figcaption></figure>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MUSIC & EVENTS
+     ============================================================ -->
+<section class="band warm" id="music">
+  <div class="band-inner">
+    <div class="band-label">
+      <p class="eyebrow">jams · classes · events</p>
+      <svg class="wave" viewBox="0 0 58 12" aria-hidden="true"><path d="M0,6 C8,6 8,1.5 16,1.5 C24,1.5 24,10.5 32,10.5 C40,10.5 40,6 58,6"/></svg>
+    </div>
+    <div class="band-body">
+      <h2>music &amp; events</h2>
+      <p class="teaser">"spielzimmer" — an experimental jam where beginners and experienced players meet through music. also private improvisation classes, and music for your own event.</p>
+
+      <details class="more">
+        <summary>read more</summary>
+        <div class="more-body">
+          <h3>spielzimmer</h3>
+          <p>an experimental jam format built so that beginners and experienced players can share the same room. we start with an hour of warmup — waking up the body and the voice, practising giving and taking space, connecting playfully with the instruments and with each other. then the jam opens completely: everyone listens, and everyone takes their space when they feel it, each in their own way. those moments where the music suddenly connects are the whole point.</p>
+          <p>have a space or an event where a spielzimmer could happen — a company gathering, a party, a festival? let's talk. or simply come to one of the regular sessions.</p>
+
+          <h3>private improvisation classes</h3>
+          <p>we improvise together, going straight into a jam and letting things emerge — a conversation held in music. after a while we pause, feel into the body, and put into words what it is telling us: what journey we just went through, what happened between two nervous systems. sometimes i offer an input, or a concrete task — i will stay steady on one melody, find your way to tune into it; or, let's hold these same chords and use that stability to go into conversation.</p>
+          <p>it is a reflected, empowering way of improvising. the focus is on practising how to play together, and on trusting the subtle signals that arrive in your own system.</p>
+
+          <p class="meta-line">instruments: piano · osmose synthesizer · bansuri flute (north india) · mbira nyunga nyunga (zimbabwe)</p>
+
+          <div class="gallery">
+            <figure><img src="images/instruments_3.jpg" alt="a group seated in a circle on the floor, playing a small keyboard, hand drums and other instruments together"><figcaption>spielzimmer workshop</figcaption></figure>
+            <figure><img src="images/instruments_2.jpg" alt="playing a bansuri flute, eyes closed, mid-performance"><figcaption>bansuri flute</figcaption></figure>
+            <figure><img src="images/music_events_2.jpg" alt="playing a synthesizer in a studio, headphones on, speaker cabinets behind"><figcaption>studio session</figcaption></figure>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DATA & TOOLS
+     ============================================================ -->
+<section class="band cool" id="data">
+  <div class="band-inner">
+    <div class="band-label">
+      <p class="eyebrow">custom tools</p>
+      <svg class="wave" viewBox="0 0 58 12" aria-hidden="true"><path d="M0,6 C8,6 8,1.5 16,1.5 C24,1.5 24,10.5 32,10.5 C40,10.5 40,6 58,6"/></svg>
+    </div>
+    <div class="band-body">
+      <h2>data &amp; tools</h2>
+      <p class="teaser">our senses are the most direct instrument we have. i build tools that pre-process data into something a nervous system can actually take in.</p>
+
+      <details class="more">
+        <summary>read more</summary>
+        <div class="more-body">
+          <p>most of what we understand about the world arrives through the sensors at our nerve endings. data is the other route — but only once it has been shaped into a form we can perceive. with data analysis in python and programming in java and other languages, i build analysis and visualisation tools around the specific question you are trying to answer, including a visualisation tool for a project in the education sector.</p>
+          <p>bring your data, your problem, or just the idea — and let's find out what it would take to make it visible.</p>
+          <div class="gallery">
+            <figure><img src="images/tech_data_1.jpg" alt="python code on a screen, photographed at an angle with shallow focus"><figcaption>analysis code</figcaption></figure>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ABOUT
+     ============================================================ -->
+<section class="band" id="about">
+  <div class="band-inner">
+    <div class="band-label">
+      <p class="eyebrow">about</p>
+      <svg class="wave" viewBox="0 0 58 12" aria-hidden="true"><path d="M0,6 C8,6 8,1.5 16,1.5 C24,1.5 24,10.5 32,10.5 C40,10.5 40,6 58,6"/></svg>
+    </div>
+    <div class="band-body">
+      <h2>about</h2>
+      <p>i am a musician, bodyworker and physicist. i play and teach music under the name almapola. my main instrument is the piano; i also play the osmose synthesizer, the bansuri flute from north india, and the mbira nyunga nyunga from zimbabwe, which i like for building dreamy soundscapes.</p>
+      <p>what holds my attention is the subtle interplay between bodies — movement, sound and observation merging into something collective. one playground for that is contact improvisation, where i both play music for dancers and facilitate workshops. i see movement and music as tools our bodies use to have conversations that are hard to reach through words, and the same fascination carries into bodywork, where thai massage and reiki become body languages for co-regulating.</p>
+      <p>it also carries into physics. i did my phd at eth zürich in the quantum photonics group, working on ultrathin crystals with optical spectroscopy, and the question underneath it was never only how to measure a subtle signal — but how far it can be experienced.</p>
+      <p>the four areas of work on this page are separate practices. the instinct underneath them is the same one.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT
+     ============================================================ -->
+<section class="band" id="contact">
+  <div class="band-inner">
+    <div class="band-label">
+      <p class="eyebrow">get in touch</p>
+      <svg class="wave" viewBox="0 0 58 12" aria-hidden="true"><path d="M0,6 C8,6 8,1.5 16,1.5 C24,1.5 24,10.5 32,10.5 C40,10.5 40,6 58,6"/></svg>
+    </div>
+    <div class="band-body">
+      <h2>contact</h2>
+      <p>a question, a project, an idea for something that could happen — write to me and let's see what emerges.</p>
+      <div class="contact-links">
+        <a href="mailto:info@popert.ch">info@popert.ch</a>
+        <a href="https://www.instagram.com/almapolaimpro" target="_blank" rel="noopener">instagram — @almapolaimpro</a>
+        <a href="http://www.linktr.ee/almapolaimpro" target="_blank" rel="noopener">linktree</a>
+        <span>zürich, switzerland</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="inner">
+    <span>© 2026 alexander popert</span>
+    <span>almapola</span>
+  </div>
+</footer>
+
+</body>
+</html>
